@@ -1,0 +1,10 @@
+.space-block{
+  width: 100%;
+  height: 400px;
+  background-color: mediumaquamarine;
+}
+
+.h-welcome{
+  text-align: center;
+  font-family: 'Farro', sans-serif;
+}
