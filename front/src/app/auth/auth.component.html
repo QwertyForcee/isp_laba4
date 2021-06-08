@@ -1,1 +1,180 @@
-<p>auth works!</p>
+<div class="row h-100">
+  <div class="wrapper my-auto col-6 offset-3">
+    <div class="form-wrapper border pl-5 pr-5 pt-4 pb-4 rounded">
+      <form
+        *ngIf="!isLoginMode"
+        [formGroup]="signupForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <div class="form-group">
+          <label for="user">Username *</label>
+          <input
+            type="text"
+            id="user"
+            class="form-control"
+            name="user"
+            formControlName="user"
+            [ngClass]="{ 'is-invalid': requestSent && fsu.user.errors }"
+          >
+          <div
+            *ngIf="requestSent && fsu.user.errors"
+            class="invalid-feedback">
+              <span
+                class="help-block"
+                *ngIf="fsu.user.errors.required">Please enter a valid username.</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password_1">Password *</label>
+          <input
+            type="password"
+            id="password_1"
+            class="form-control"
+            name="password_1"
+            formControlName="password_1"
+            [ngClass]="{ 'is-invalid': requestSent && fsu.password_1.errors }"
+          >
+          <div
+            *ngIf="requestSent && fsu.password_1.errors"
+            class="invalid-feedback">
+              <span
+                class="help-block"
+                *ngIf="fsu.password_1.errors.required">Please enter a valid password.</span>
+          </div>
+        </div>
+
+        <div *ngIf="!isLoginMode">
+          <div class="form-group">
+            <label for="email_address1">Email *</label>
+            <input
+              type="text"
+              id="email_address1"
+              class="form-control"
+              name="email_address1"
+              [ngClass]="{ 'is-invalid': requestSent && fsu.email_address1.errors }"
+              formControlName="email_address1"
+            >
+            <div
+              *ngIf="requestSent && fsu.email_address1.errors"
+              class="invalid-feedbacnpk">
+                <span
+                  class="help-block"
+                  *ngIf="fsu.email_address1.errors.required ||
+                  fsu.email_address1.errors.email">Please enter a valid email address.</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email_address2">Repeat email *</label>
+            <input
+              type="text"
+              id="email_address2"
+              class="form-control"
+              name="email_address2"
+              [ngClass]="{ 'is-invalid': requestSent && fsu.email_address2.errors }"
+              formControlName="email_address2"
+            >
+            <div
+              *ngIf="requestSent && fsu.email_address2.errors"
+              class="invalid-feedback">
+                <span
+                  class="help-block"
+                  *ngIf="fsu.email_address2.errors.required ||
+                  fsu.email_address2.errors.email">Please enter a valid email address.</span>
+              <span
+                class="help-block"
+                *ngIf="fsu.email_address2.errors.mustMatch">Email addresses do not match.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center mt-4">
+          <button
+            class="btn btn-primary"
+          >Register
+          </button>
+          <div
+            class="ml-3">
+            <a
+              routerLink="/"
+              (click)="toggleAuth()">Back to login</a>
+          </div>
+        </div>
+      </form>
+
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()"
+        *ngIf="isLoginMode"
+      >
+        <div class="form-group">
+          <label for="user_login">Username *</label>
+          <input
+            type="text"
+            id="user_login"
+            class="form-control"
+            name="user_login"
+            formControlName="user_login"
+            [ngClass]="{ 'is-invalid': requestSent && fl.user_login.errors }"
+          >
+          <div
+            *ngIf="requestSent && fl.user_login.errors"
+            class="invalid-feedback">
+              <span
+                class="help-block"
+                *ngIf="fl.user_login.errors.required">Please enter a valid username.</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password *</label>
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            name="password"
+            formControlName="password"
+            [ngClass]="{ 'is-invalid': requestSent && fl.password.errors }"
+          >
+          <div
+            *ngIf="requestSent && fl.password.errors"
+            class="invalid-feedback">
+              <span
+                class="help-block"
+                *ngIf="fl.password.errors.required">Please enter a valid password.</span>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center mt-4">
+          <button
+            class="btn btn-primary"
+          >Login
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div
+      class="mt-4"
+      *ngIf="requestSent">
+      <div
+        class="alert alert-danger"
+        *ngIf="errorMsg !== '' && errorMsg != null">
+        <p>{{ errorMsg }}</p>
+      </div>
+      <div
+        class="alert alert-success"
+        *ngIf="errorMsg === ''">
+        <p *ngIf="isLoginMode">Login successful</p>
+        <p *ngIf="!isLoginMode">User account successfully created. Please check your emails!</p>
+      </div>
+    </div>
+
+    <div *ngIf="isLoginMode">
+      <div class="border  pl-5 pr-5 pt-4 pb-4 rounded mt-4">
+          <span>No account yet? <a
+            routerLink="/registration"
+            (click)="toggleAuth()">Create one.</a></span>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -17,13 +17,8 @@ api = Api(application,prefix='/api/v1')
 
 db = SQLAlchemy(application)
 
-from .sec_extentions import ExtendedLoginForm,ExtendedRegisterForm
+
 from flask_security import UserMixin, RoleMixin, SQLAlchemyUserDatastore
-roles_users = db.Table(
-    "roles_users",
-    db.Column("user_id", db.Integer, db.ForeignKey("user.id")),
-    db.Column("role_id", db.Integer, db.ForeignKey("role.id")),
-)
 
 def configure_flask_security(app):
     # send CSRF cookie with the following key name
@@ -69,6 +64,7 @@ def configure_flask_security(app):
     from flask_security.forms import ConfirmRegisterForm
     # Enable CSRF protection
     flask_wtf.CSRFProtect(app)
+    from .sec_extentions import ExtendedLoginForm,ExtendedRegisterForm
     Security(
         app,
         user_datastore,
@@ -102,7 +98,7 @@ class Somedata(Resource):
 api.add_resource(Somedata,'/somedata')
 
 from .views import Solutions,Tasks,UserGetView
-api.add_resource(Solutions,"/solutions")
-api.add_resource(Tasks,"/tasks")
+api.add_resource(Solutions,"/solutions","/solutions/<int:solution_id>")
+api.add_resource(Tasks,"/tasks","/tasks/<int:task_id>")
 api.add_resource(UserGetView,"/users/current")
 

@@ -14,5 +14,8 @@ export class SharedService {
   get_somedata():Observable<any>{
     return this.http.get(this.api+'somedata')
   }
+  get_task(id:number):Observable<any>{
+    return this.http.get('tasks/'+id)
+  }
 
 }

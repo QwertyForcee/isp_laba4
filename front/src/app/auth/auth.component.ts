@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from './auth.service';
+import {MustMatch} from '../must-match.validator';
+import {Observable} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -7,9 +12,84 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthComponent implements OnInit {
 
-  constructor() { }
+  isLoginMode = true;
+  errorMsg:any = null;
+  requestSent = false;
+  signupForm: FormGroup=this.formBuilder.group({
+    user: ['', Validators.required],
+    password_1: ['', [Validators.required]],
+    email_address1: ['', [Validators.required, Validators.email]],
+    email_address2: ['', [Validators.required, Validators.email]]
+  }, {
+    validator: [MustMatch('email_address1', 'email_address2')]
+  });
+  loginForm: FormGroup=this.formBuilder.group({
+    user_login: ['', Validators.required],
+    password: ['', [Validators.required]],
+  });
+  hideForm = false;
+
+  constructor(private authService: AuthService, private formBuilder: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
+    this.authService.getAuthenticatedUser().subscribe(user => {
+      if (user.id !== null) {
+        this.router.navigate(['http://localhost:4200/code']);
+        console.log(user.username)
+      }
+    });
+
+    this.signupForm = this.formBuilder.group({
+      user: ['', Validators.required],
+      password_1: ['', [Validators.required]],
+      email_address1: ['', [Validators.required, Validators.email]],
+      email_address2: ['', [Validators.required, Validators.email]]
+    }, {
+      validator: [MustMatch('email_address1', 'email_address2')]
+    });
+
+    this.loginForm = this.formBuilder.group({
+      user_login: ['', Validators.required],
+      password: ['', [Validators.required]],
+    });
+  }
+
+  // convenience getter for easy access to form fields
+  get fsu(): any {
+    return this.signupForm.controls;
+  }
+
+  get fl(): any {
+    return this.loginForm.controls;
+  }
+
+  onSubmit(): void {
+    this.requestSent = true;
+    const form = this.isLoginMode ? this.loginForm : this.signupForm;
+
+    if (!form.valid) {
+      return;
+    }
+
+    this.errorMsg = null;
+    let authObs: Observable<any>;
+
+    if (this.isLoginMode) {
+      authObs = this.authService.login(form);
+    } else {
+      authObs = this.authService.register(form);
+    }
+
+    authObs.subscribe(responseData => {
+      this.errorMsg = "";
+    }, error => {
+      this.errorMsg = error;
+    });
+  }
+
+  toggleAuth(): void {
+    this.requestSent = false;
+    this.isLoginMode = !this.isLoginMode;
   }
 
 }
