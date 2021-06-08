@@ -1,5 +1,5 @@
 #from flask_app.app.models import Task
-from flask import Flask,jsonify
+from flask import Flask, app,jsonify,request
 import flask.scaffold
 flask.helpers._endpoint_from_view_func = flask.scaffold._endpoint_from_view_func
 from flask_restful import Api,Resource
@@ -16,6 +16,15 @@ application.config.from_object(Config)
 api = Api(application,prefix='/api/v1')
 
 db = SQLAlchemy(application)
+
+from .sec_extentions import ExtendedLoginForm,ExtendedRegisterForm
+from flask_security import UserMixin, RoleMixin, SQLAlchemyUserDatastore
+roles_users = db.Table(
+    "roles_users",
+    db.Column("user_id", db.Integer, db.ForeignKey("user.id")),
+    db.Column("role_id", db.Integer, db.ForeignKey("role.id")),
+)
+
 def configure_flask_security(app):
     # send CSRF cookie with the following key name
     app.config["SECURITY_CSRF_COOKIE"] = {"key": "XSRF-TOKEN"}
@@ -58,7 +67,6 @@ def configure_flask_security(app):
 
     from .models import user_datastore
     from flask_security.forms import ConfirmRegisterForm
-    from sec_extentions import ExtendedLoginForm,ExtendedRegisterForm
     # Enable CSRF protection
     flask_wtf.CSRFProtect(app)
     Security(
@@ -86,13 +94,15 @@ def configure_flask_security(app):
                 raise CustomClientError("HTTP method is not valid.")
 
 
+configure_flask_security(application)
 class Somedata(Resource):
     def get(self):
         return jsonify({'some':'data'})
 
 api.add_resource(Somedata,'/somedata')
 
-from .views import Solutions,Tasks
+from .views import Solutions,Tasks,UserGetView
 api.add_resource(Solutions,"/solutions")
 api.add_resource(Tasks,"/tasks")
+api.add_resource(UserGetView,"/users/current")
 
