@@ -25,7 +25,8 @@ class Tester:
             with open(self.unique_filename,'r') as f:
                 res = f.read()
             os.remove(self.unique_filename)
-            status = 'OK' in (res.split('\n')).pop()
+            lines = res.split('\n')
+            status = 'OK' in lines[len(lines)-2]
             return (status,res)
                 #unittest.main(testRunner=runner)
         else:
