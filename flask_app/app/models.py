@@ -1,6 +1,7 @@
 from typing import Text
 from . import db
 from flask_security import UserMixin, RoleMixin, SQLAlchemyUserDatastore
+from .config import Config
 
 roles_users = db.Table(
     "roles_users",
@@ -18,6 +19,16 @@ class User(db.Model, UserMixin):
     roles = db.relationship(
         "Role", secondary=roles_users, backref=db.backref("users", lazy="dynamic")
     )
+
+    def verify_and_update_password(self,password):
+        #hashed =  bcrypt.hashpw(str.encode(password), bcrypt.gensalt())
+        #print('password: ',self.password)
+        #print('user try hashed: ',hashed)
+        #return self.password == hashed
+        #return bcrypt.hashpw(str.encode(password),str.encode(self.password)) == self.password
+        from flask_security.utils import verify_password
+        return verify_password(password,self.password)
+
 
 class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer, primary_key=True)

@@ -10,11 +10,13 @@ export class UserModel {
   id: number;
   username: string;
   email: string;
+  role: string|null;
 
-  constructor(id: number, username: string, email: string) {
+  constructor(id: number, username: string, email: string,role: string|null) {
     this.id = id;
     this.username = username;
     this.email = email;
+    this.role = role
   }
 
 }
@@ -32,7 +34,7 @@ export class AuthService {
   private handleAuthentication(): void {
     window.setTimeout(() => {
       this.authenticationChanged.next();
-      this.router.navigate(['/somedata']);
+      this.router.navigate(['/tasks']);
     }, 2000);
 
   }
@@ -58,7 +60,7 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    return this.http.post<any>('api/v1/logout', {})
+    return this.http.post<any>('api/v1/log_out', {})
       .pipe(
         catchError(this.handleError),
         tap(resData => {
@@ -96,7 +98,7 @@ export class AuthService {
         take(1),
         map(resp => {
           console.log(resp)
-          return new UserModel(resp.response.data.user_id, resp.response.data.username, resp.response.data.email);
+          return new UserModel(resp.response.data.user_id, resp.response.data.username, resp.response.data.email,resp.response.data.role);
         })
       );
   }

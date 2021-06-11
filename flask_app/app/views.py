@@ -2,9 +2,8 @@ from .code_tester import Tester
 from . import db
 from flask import jsonify
 from flask_restful import Resource,reqparse
-from .models import Task, Solution
+from .models import Role, Task, Solution, User
 from flask_security import current_user
-
 class Tasks(Resource):
     def get(self,task_id=0):
         print('task id',task_id)
@@ -50,23 +49,30 @@ class Tasks(Resource):
 
     def delete(self,task_id):
         if task_id>0:
-            db.session.filter_by(id=task_id).delete()
+            Task.query.filter(Task.id==task_id).delete()
             db.session.commit()
             
 
 
 class Solutions(Resource):
     def get(self):
-        data = Solution.query.all()
+        data = Solution.query.join(User,Solution.user_id==User.id)\
+        .add_columns(User.username)\
+        .join(Task,Solution.task_id==Task.id)\
+        .add_columns(Task.title)\
+        .all()
         res = []
         for d in data:
+            solution,username,task_title = d
             res.append(
             {
-                'id':d.id,
-                'task_id':d.task_id,
-                'author_id':d.author_id,
-                'source_code':d.source_code,
-                'successful':d.successful
+                'id':solution.id,
+                'task_id':solution.task_id,
+                'user_id':solution.user_id,
+                'source_code':solution.source_code,
+                'successful':solution.successful,
+                'username':username,
+                'task_title':task_title
             }
             )
         return jsonify(res)         
@@ -94,9 +100,15 @@ class Solutions(Resource):
         tester = Tester("",solution.source_code,task.title,task.tests)
         status,mes = tester.run_tests()
         if status:
+            solution.successful=True
             db.session.add(solution)
             db.session.commit()
-        return jsonify((status,mes))
+        return jsonify({'status':status,'mes':mes})
+
+    def delete(self,solution_id):
+        if solution_id>0:
+            Solution.query.filter(Solution.id == solution_id).delete()
+            db.session.commit()
 
     
 def build_data_response(data, code=200):
@@ -111,13 +123,41 @@ class UserGetView(Resource):
             #print('anonimoys')
             response = build_data_response({"user_id": None, "username": None, "email": None}, 200)
         else:
+            if len(current_user.roles)<1:
+                role = ''
+            else:
+                role = current_user.roles[0].name
             response = build_data_response({
                 "user_id": current_user.id,
                 "username": current_user.username,
                 "email": current_user.email,
+                "role": role
             },
             200,)
+
         return response
 
+class LogOut(Resource):
+    def post(self):
+        from flask_login import logout_user
+        logout_user()
+
+class Users(Resource):
+    def get(self):
+        users = User.query.with_entities(User.id,User.username,User.status)
+        res = []
+        for user in users:
+            res.append(
+                {
+                    'id':user.id,
+                    'username':user.username,
+                    'status':user.status
+                }
+            )
+        return res
+    def delete(self,user_id):
+        if user_id>0:
+            User.query.filter(User.id == user_id).delete()
+            db.session.commit()
 
 

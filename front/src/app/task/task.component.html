@@ -1,1 +1,11 @@
-<p>task works!</p>
+<div class="task-wrapper">
+  <h1>{{task.title}}</h1>
+  <p>{{task.description}}</p>
+</div>
+<div class="sol-wrapper">
+  <div class="res" [ngStyle]="{'background':resBg}" *ngIf="showRes">
+    <p>{{output}}</p>
+  </div>
+  <textarea class="code-editor" (change)="code_changed($event)" cols="30" rows="10">{{code}}</textarea>
+  <button class="btn btn-send" (click)="send()">Send solution</button>
+</div>

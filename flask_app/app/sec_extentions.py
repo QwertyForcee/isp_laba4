@@ -46,22 +46,24 @@ class ExtendedLoginForm(LoginForm):
             self.user = _datastore.get_user(self.username.data)
 
         if self.user is None:
-            self.email.errors.append(get_message("USER_DOES_NOT_EXIST")[0])
+            #self.email.errors.append(get_message("USER_DOES_NOT_EXIST")[0])
             # Reduce timing variation between existing and non-existing users
-            hash_password(self.password.data)
+            #hash_password(self.password.data)
             return False
         if not self.user.password:
-            self.password.errors.append(get_message("PASSWORD_NOT_SET")[0])
+            #self.password.errors.append(get_message("PASSWORD_NOT_SET")[0])
             # Reduce timing variation between existing and non-existing users
-            hash_password(self.password.data)
+            #hash_password(self.password.data)
+            print('PASSWORD_NOT_SET')
             return False
         if not self.user.verify_and_update_password(self.password.data):
-            self.password.errors.append(get_message("INVALID_PASSWORD")[0])
+            #self.password.errors.append(get_message("INVALID_PASSWORD")[0])
+            print('INVALID_PASSWORD')
             return False
         if requires_confirmation(self.user):
-            self.email.errors.append(get_message("CONFIRMATION_REQUIRED")[0])
+            #self.email.errors.append(get_message("CONFIRMATION_REQUIRED")[0])
             return False
         if not self.user.is_active:
-            self.email.errors.append(get_message("DISABLED_ACCOUNT")[0])
+            #self.email.errors.append(get_message("DISABLED_ACCOUNT")[0])
             return False
         return True

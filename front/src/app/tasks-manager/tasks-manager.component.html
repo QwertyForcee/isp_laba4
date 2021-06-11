@@ -1,0 +1,22 @@
+<div class="tasks-container">
+  <table class="table table-dark">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let task of tasks">
+      <tr>
+        <td>{{task.id}}</td>
+        <td>{{task.title}}</td>
+        <td>{{task.description}}</td>
+        <td>
+          <button class="btn btn-danger" (click)="deleteTask(task.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

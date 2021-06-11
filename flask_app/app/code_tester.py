@@ -43,7 +43,11 @@ class Tester:
             return test
 
         for name,params in self.tests.items():
-            test_func = make_test_function(name,params[0],self.user_src(*params[1]))
+            if isinstance(params[1],(list,tuple)):
+                test_func = make_test_function(name,params[0],self.user_src(*params[1]))
+            else:
+                test_func = make_test_function(name,params[0],self.user_src(params[1]))
+
             setattr(TestsContainer,f"test_{name}",test_func)
         
         return TestsContainer

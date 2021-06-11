@@ -1,0 +1,54 @@
+.m-container{
+
+}
+.temp{
+    height: 300px;
+    background: violet;
+    width: 100%;
+}
+.main-header{
+    background: black;
+    color: white;
+    text-align: center;
+    position: relative;
+
+}
+.main-header h1{
+    padding: 0rem;
+    letter-spacing: 9px;
+    font-size: 105px;
+}
+
+
+.main-nav{
+    padding-top: .5rem;
+    background: white;
+    text-align: center;
+    width: 100%;
+}
+.sticky-wrapper{
+    position: sticky;
+    top:0px;
+    z-index: 100;
+}
+.main-nav a{
+    text-decoration: none;
+    color: black;
+    font-size: 30px;
+    font-weight: 0;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+.main-nav a:hover{
+    /*font-weight: bold;*/
+    background: black;
+    color: white;
+}
+.in-out-btn{
+  position: absolute;
+  right: 10px;
+  bottom: 10%;
+  font-size: 16px;
+  color: black;
+  background: white;
+}

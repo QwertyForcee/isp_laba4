@@ -1,0 +1,29 @@
+.task-wrapper{
+  font-size: 20px;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.sol-wrapper{
+  text-align: center;
+  padding: 2rem;
+}
+
+.code-editor{
+  margin: 1rem;
+  font-size: 30px;
+  width: 100%;
+  background: black;
+  color: white;
+}
+.btn-send{
+  padding: 1rem;
+  font-size: 35px;
+  background: dodgerblue;
+  font-weight: bald;
+}
+
+.res{
+  font-size: 25px;
+  padding: 2rem;
+}

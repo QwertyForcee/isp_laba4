@@ -1,0 +1,8 @@
+<div class="sol-container">
+  <div *ngFor="let solution of solutions" class="sol-wrapper">
+    <h3><span class="bald-t"> Task: </span> {{solution.task_title}}</h3>
+    <h2><span class="bald-t">User: </span> {{solution.username}}</h2>
+    <textarea readonly>{{solution.source_code}}</textarea>
+    <button class="btn btn-danger" (click)="deleteSolution(solution.id)">Delete</button>
+  </div>
+</div>

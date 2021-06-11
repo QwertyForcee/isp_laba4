@@ -1,0 +1,19 @@
+<div class="tc-container">
+  <form [formGroup]="taskForm" (ngSubmit)="submit()">
+    <div class="form-group-m">
+      <label>Title</label>
+      <input class="form-control" formControlName="title" type="text"/>
+    </div>
+
+    <div class="form-group-m">
+      <label>Description</label>
+      <input class="form-control" formControlName="description" type="text"/>
+    </div>
+
+    <div class="form-group-m">
+      <label>Tests(JSON)</label>
+      <textarea formControlName="tests"></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </form>
+</div>

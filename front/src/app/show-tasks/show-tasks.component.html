@@ -1,0 +1,5 @@
+<div *ngFor="let task of tasks" class="task-wrapper">
+  <h1>{{task.title}}</h1>
+  <p>{{task.description}}</p>
+  <a class="btn btn-primary" [routerLink]="['/task',task.id]">TRAIN</a>
+</div>

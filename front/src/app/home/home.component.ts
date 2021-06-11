@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {DynheadComponent} from '../dynhead/dynhead.component';
 
 @Component({
   selector: 'app-home',

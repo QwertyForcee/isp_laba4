@@ -85,9 +85,9 @@ def configure_flask_security(app):
         ):
             print(request)
             if not request.is_json:
-                raise CustomClientError("Mime type must be application/json.")
+                raise Exception("Mime type must be application/json.")
             if request.method != 'POST':
-                raise CustomClientError("HTTP method is not valid.")
+                raise Exception("HTTP method is not valid.")
 
 
 configure_flask_security(application)
@@ -97,8 +97,9 @@ class Somedata(Resource):
 
 api.add_resource(Somedata,'/somedata')
 
-from .views import Solutions,Tasks,UserGetView
+from .views import Solutions,Tasks,UserGetView,Users,LogOut
 api.add_resource(Solutions,"/solutions","/solutions/<int:solution_id>")
 api.add_resource(Tasks,"/tasks","/tasks/<int:task_id>")
+api.add_resource(Users,"/users","/users/<int:user_id>")
 api.add_resource(UserGetView,"/users/current")
-
+api.add_resource(LogOut,"/log_out")

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DynheadComponent } from './dynhead.component';
+import { TaskCreatorComponent } from './task-creator.component';
 
-describe('DynheadComponent', () => {
-  let component: DynheadComponent;
-  let fixture: ComponentFixture<DynheadComponent>;
+describe('TaskCreatorComponent', () => {
+  let component: TaskCreatorComponent;
+  let fixture: ComponentFixture<TaskCreatorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DynheadComponent ]
+      declarations: [ TaskCreatorComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DynheadComponent);
+    fixture = TestBed.createComponent(TaskCreatorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
