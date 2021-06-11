@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  domain: 'localhost',
+  port: '5000',
+  apiPath: '/api/v1/'
 };

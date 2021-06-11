@@ -13,7 +13,7 @@ application = Flask(__name__,instance_relative_config=True)
 from .config import Config
 
 application.config.from_object(Config)
-api = Api(application,prefix='/api/v1')
+api = Api(application,prefix='/api/v1/')
 
 db = SQLAlchemy(application)
 
@@ -58,7 +58,7 @@ def configure_flask_security(app):
     # don't use the default unauthorized view since we implement
     # our own in angular
     app.config["SECURITY_UNAUTHORIZED_VIEW"] = None
-    app.config["SECURITY_URL_PREFIX"] = "/api/v1"    
+    app.config["SECURITY_URL_PREFIX"] = "/api/v1/"    
 
     from .models import user_datastore
     from flask_security.forms import ConfirmRegisterForm
@@ -95,11 +95,11 @@ class Somedata(Resource):
     def get(self):
         return jsonify({'some':'data'})
 
-api.add_resource(Somedata,'/somedata')
+api.add_resource(Somedata,'somedata')
 
 from .views import Solutions,Tasks,UserGetView,Users,LogOut
-api.add_resource(Solutions,"/solutions","/solutions/<int:solution_id>")
-api.add_resource(Tasks,"/tasks","/tasks/<int:task_id>")
-api.add_resource(Users,"/users","/users/<int:user_id>")
-api.add_resource(UserGetView,"/users/current")
-api.add_resource(LogOut,"/log_out")
+api.add_resource(Solutions,"solutions","solutions/<int:solution_id>")
+api.add_resource(Tasks,"tasks","tasks/<int:task_id>")
+api.add_resource(Users,"users","users/<int:user_id>")
+api.add_resource(UserGetView,"users/current")
+api.add_resource(LogOut,"log_out")
