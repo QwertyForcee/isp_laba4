@@ -77,7 +77,7 @@ class Solutions(Resource):
             )
         return jsonify(res)         
 
-    def post(self):
+    #def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('title', type=str)
         parser.add_argument('task_id', type=str)

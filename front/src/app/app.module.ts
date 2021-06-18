@@ -16,6 +16,7 @@ import { SolutionsManagerComponent } from './solutions-manager/solutions-manager
 import { TaskCreatorComponent } from './task-creator/task-creator.component';
 import { ShowUsersComponent } from './show-users/show-users.component';
 import { TasksManagerComponent } from './tasks-manager/tasks-manager.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { TasksManagerComponent } from './tasks-manager/tasks-manager.component';
     TaskCreatorComponent,
     ShowUsersComponent,
     TasksManagerComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

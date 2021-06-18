@@ -16,7 +16,7 @@ class Tester:
         self.tests = eval(tests)
         self.testcase = self.create_testcase()
 
-    def run_tests(self):
+    async def run_tests(self):
         if self.isvalid():
             with open(self.unique_filename,'w') as f:
                 suite = unittest.defaultTestLoader.loadTestsFromTestCase(self.testcase)

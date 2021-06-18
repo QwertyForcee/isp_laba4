@@ -13,10 +13,17 @@
     position: relative;
 
 }
+.logo{
+  position: absolute;
+  left: 10px;
+  bottom: 10%;
+  height: 100px;
+}
 .main-header h1{
     padding: 0rem;
     letter-spacing: 9px;
     font-size: 105px;
+    font-family: 'PT Sans', sans-serif;
 }
 
 

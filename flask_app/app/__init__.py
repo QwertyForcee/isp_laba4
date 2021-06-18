@@ -95,6 +95,42 @@ class Somedata(Resource):
     def get(self):
         return jsonify({'some':'data'})
 
+from .models import Role, Task, Solution, User
+from flask_restful import reqparse
+from .code_tester import Tester
+import asyncio
+
+@application.route('/api/v1/post_solution',methods=['POST'])
+async def post_solution():
+        parser = reqparse.RequestParser()
+        parser.add_argument('title', type=str)
+        parser.add_argument('task_id', type=str)
+        #parser.add_argument('author_id',type=int)
+        parser.add_argument('source_code',type=str)  
+        parser.add_argument('user_id',type=int)      
+        data = parser.parse_args()
+        solution = Solution()
+        solution.source_code=data['source_code']
+        solution.task_id = data['task_id']
+        solution.user_id = data['user_id']
+        task_data = Task.query.filter_by(id=data['task_id']).first()
+        task = Task()
+        task.id=task_data.id
+        task.tests=task_data.tests
+        task.title=task_data.title
+        task.author_id=task_data.author_id
+
+        tester = Tester("",solution.source_code,task.title,task.tests)
+        run_tests_task = asyncio.create_task(tester.run_tests())
+
+        status,mes = await run_tests_task
+        if status:
+            solution.successful=True
+            db.session.add(solution)
+            db.session.commit()
+        return jsonify({'status':status,'mes':mes})
+
+
 api.add_resource(Somedata,'somedata')
 
 from .views import Solutions,Tasks,UserGetView,Users,LogOut

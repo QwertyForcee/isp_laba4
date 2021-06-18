@@ -21,7 +21,7 @@ export class SolutionService {
     //solution.user_id=this.user_id
     console.log(solution)
     solution.user_id = this.user_id
-    return this.http.post(this.apiSign+'solutions',solution)
+    return this.http.post(this.apiSign+'post_solution',solution)
   }
   getSolutions():Observable<any>{
     return this.http.get(this.apiSign+'solutions')

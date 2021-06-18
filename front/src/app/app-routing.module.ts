@@ -5,6 +5,7 @@ import { AdminGuard } from './admin-panel/admin.guard';
 import { AuthComponent } from './auth/auth.component';
 import { AuthGuard } from './auth/auth.guard';
 import { HomeComponent } from './home/home.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 import { ShowTasksComponent } from './show-tasks/show-tasks.component';
 import { ShowUsersComponent } from './show-users/show-users.component';
 import { SolutionsManagerComponent } from './solutions-manager/solutions-manager.component';
@@ -19,11 +20,12 @@ const adminRoutes: Routes = [
   {path:'tasks',component:TasksManagerComponent}
 ]
 const routes: Routes = [
-  {path:'home',component:HomeComponent},
+  {path:'',component:HomeComponent},
   {path:"auth",component:AuthComponent},
   {path:"tasks",canActivate:[AuthGuard],component:ShowTasksComponent},
   {path:"task/:id",component:TaskComponent},
-  {path:"admin",canActivate:[AdminGuard],component:AdminPanelComponent,children:adminRoutes}
+  {path:"admin",canActivate:[AdminGuard],component:AdminPanelComponent,children:adminRoutes},
+  {path:"**",component:NotFoundComponent}
 ];
 
 @NgModule({
