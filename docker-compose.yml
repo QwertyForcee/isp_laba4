@@ -15,7 +15,7 @@ services:
             - SYS_NICE            
 
     web-api:
-        build: ./flask_app
+        image: qwecap/pyex-web-api:latest
         ports: 
             - '5000:5000'
         depends_on:
@@ -24,7 +24,7 @@ services:
         
     
     front:
-        build: ./front
+        image: qwecap/pyex-front:latest
         ports:
             - '4200:4200'
         depends_on:

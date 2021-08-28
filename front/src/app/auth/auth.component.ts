@@ -34,7 +34,7 @@ export class AuthComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getAuthenticatedUser().subscribe(user => {
       if (user.id !== null) {
-        this.router.navigate(['http://localhost:4200/code']);
+        this.router.navigate(['tasks']);
         console.log(user.username)
       }
     });
