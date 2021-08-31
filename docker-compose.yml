@@ -16,15 +16,18 @@ services:
 
     web-api:
         image: qwecap/pyex-web-api:latest
+        #build: ./flask_app
         ports: 
             - '5000:5000'
         depends_on:
             - db
-        command: python main.py
-        
+        #command: python main.py
+        command: uwsgi app.ini
+
     
     front:
         image: qwecap/pyex-front:latest
+        #build: ./front
         ports:
             - '4200:4200'
         depends_on:

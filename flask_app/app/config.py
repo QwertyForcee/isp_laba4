@@ -4,7 +4,7 @@ import os
 class Config:
     SECRET_KEY = 'zxc'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    ENV = "development"
+    ENV = "production"
     SECURITY_PASSWORD_SALT = "security-password-salt"
     basedir = os.path.abspath(os.path.dirname(__file__))
     SERVER_NAME = "localhost:5000"
